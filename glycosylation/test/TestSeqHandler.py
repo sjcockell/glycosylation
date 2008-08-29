@@ -1,3 +1,7 @@
-import glycosylation
+import glycosylation.SequenceHandler as sh
 
-seqhandler = glycosylation.SequenceHandler('P68133')
+seqhandler = sh.SequenceHandler('P68133')
+id = seqhandler.get_seq_id()
+print id
+seq = seqhandler.get_sequence()
+print seq
