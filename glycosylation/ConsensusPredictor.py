@@ -1,10 +1,17 @@
-import Bio.Prosite
+from Bio.Seq import Seq
+from Bio import ExPASy
+from Bio import Prosite
+from Bio.Prosite import Pattern as pa
 class ConsensusPredictor:
 	def __init__(self, s=None, ps=None):
-		self.sequence = s
-		self.prosite = Bio.Prosite.Pattern(ps)
+		self.sequence = Seq(s)
+		self.prosite = ExPASy.get_prosite_raw(ps)
+		self.record = Prosite.read(self.prosite)
+		self.pat = pa.compile(self.record.pattern)
+
+	def get_pattern(self):
+		return self.pat
 
 	def predict_consensus(self):
-		match = self.prosite.PrositeMatch(self.sequence)
-		print match
+		self.match = self.pat.match(self.sequence)
 		
