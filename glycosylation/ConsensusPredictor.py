@@ -16,8 +16,9 @@ class ConsensusPredictor:
 		return self.pat
 
 	def predict_consensus(self):
-		self.match = self.pat.match(self.sequence)
+		self.match = self.pat.search(self.sequence)
 		if self.match is None:
-			return 0 
+			return 0
 		else:
+#			self.consensus = self.sequence[self.match.start():self.match.end()]
 			return 1
