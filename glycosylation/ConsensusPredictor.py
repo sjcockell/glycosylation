@@ -4,7 +4,10 @@ from Bio import Prosite
 from Bio.Prosite import Pattern as pa
 class ConsensusPredictor:
 	def __init__(self, s=None, ps=None):
-		self.sequence = Seq(s)
+		if isinstance(s, basestring):
+			self.sequence = Seq(s)
+		else:
+			self.sequence = s
 		self.prosite = ExPASy.get_prosite_raw(ps)
 		self.record = Prosite.read(self.prosite)
 		self.pat = pa.compile(self.record.pattern)
@@ -14,4 +17,7 @@ class ConsensusPredictor:
 
 	def predict_consensus(self):
 		self.match = self.pat.match(self.sequence)
-		
+		if self.match is None:
+			return 0 
+		else:
+			return 1
