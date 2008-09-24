@@ -2,6 +2,8 @@ import sys
 import os
 from Bio import ExPASy
 from Bio import SeqIO
+from Bio import Seq
+
 class SequenceHandler:
 	"methods for handling sequencing within project"
 #	seq_record = SeqIO.seq_record 
@@ -17,10 +19,22 @@ class SequenceHandler:
 	def get_sequence(self):
 		return self.seq_record.seq
 
+	def get_sequence_string(self):
+		return Seq.tostring(self.seq_record.seq)
+
 	def get_sequence_description(self):
 		return self.seq_record.description
 
 	def get_sequence_name(self):
 		return self.seq_record.name
+
+	def write_sequence_file(self):
+		"writes sequence file in out/$UNIPROT.seq, fasta format"
+		self.records = []
+		self.records.append(self.seq_record)
+		self.filename = self.seq_record.id+".seq"
+		output_handle = open(self.filename, "w")
+		SeqIO.write(self.records, output_handle, "fasta")
+		output_handle.close()
 
 	
