@@ -33,7 +33,7 @@ class SequenceHandler:
 		self.records = []
 		self.records.append(self.seq_record)
 		self.filename = self.seq_record.id+".seq"
-		output_handle = open(self.filename, "w")
+		output_handle = open('out/'+self.filename, "w")
 		SeqIO.write(self.records, output_handle, "fasta")
 		output_handle.close()
 

@@ -14,8 +14,8 @@ def find_domains():
 	total = 0
 	file = os.path.abspath(__file__)
 	file = os.path.dirname(file)
-	#file = os.path.join(file, "human_proteome.list")
-	file = os.path.join(file, "test_data.list")
+	file = os.path.join(file, "human_proteome.list")
+	#file = os.path.join(file, "test_data.list")
 	f = open(file, 'r')
 	lines = f.readlines()
 	for line in lines:
