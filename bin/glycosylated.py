@@ -1,15 +1,14 @@
 import glycosylation.ConsensusPredictor as cp
 import glycosylation.SequenceHandler as sh
+import glycosylation.SignalPInterface as sp
 import sys
 import os
 
 def find_domains():
 	n_gly = 'PS00001'
-	er_loc = 'PS00014'
 	gly_site = 0
 	gly_pro = 0
-	er_sig = 0
-	er_pro = 0
+	signalp_pos = 0
 	both_pro = 0
 	total = 0
 	file = os.path.abspath(__file__)
@@ -23,16 +22,16 @@ def find_domains():
 		seqhandler = sh.SequenceHandler(line)
 		seq = seqhandler.get_sequence()
 		glypred = cp.ConsensusPredictor(seq, n_gly)
-		erpred = cp.ConsensusPredictor(seq, er_loc)
 		gly_bool = glypred.predict_consensus()
-		er_bool = erpred.predict_consensus()
+		sigp = sp.SignalPInterface(line, 'summary')
+		out = sigp.execute_signalp()
+		signal = sigp.parse_signalp_summary(out)
 		if gly_bool > 0:
 			gly_site += gly_bool
 			gly_pro += 1
-		if er_bool > 0:
-			er_sig += er_bool
-			er_pro += 1
-			if gly_bool >= 0:
+		if signal == 6:
+			signalp_pos += 1
+			if gly_bool > 0:
 				both_pro += 1
 		total += 1
 	print "Number of proteins:\t",
@@ -42,10 +41,8 @@ def find_domains():
 	print " in ",
 	print gly_pro,
 	print " proteins"
-	print "Number of ER Loc Sig:\t",
-	print er_sig,
-	print " in ",
-	print er_pro,
+	print "Number of SignalP proteins:\t",
+	print signalp_pos,
 	print " proteins"
 	print "Number of Glycosylated:\t",
 	print both_pro
