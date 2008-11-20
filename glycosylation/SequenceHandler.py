@@ -9,6 +9,7 @@ class SequenceHandler:
 #	seq_record = SeqIO.seq_record 
 	def __init__(self, sprot_code=None):
 		"sets variables for instance"
+		print sprot_code
 		handle = ExPASy.get_sprot_raw(sprot_code)
 		self.seq_record = SeqIO.read(handle, "swiss")
 		handle.close()
